@@ -1,6 +1,6 @@
 # Dependences
 
-The only one you need is the ncurses library
+It works only on GNU / Linux systems and the only dependence you need is the ncurses library:
 
 ```bash
 sudo apt-get install libncurses-dev
