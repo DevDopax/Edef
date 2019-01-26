@@ -3,7 +3,7 @@
 The only one you need is the ncurses library
 
 ```bash
-sudo apt-get install libncurses-de
+sudo apt-get install libncurses-dev
 ```
 
 # To compile
