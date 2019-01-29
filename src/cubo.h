@@ -1,5 +1,6 @@
 #include <string.h>
 #include <ncurses.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <time.h>
 #include "moves.h"
@@ -26,7 +27,7 @@ short int edge[12][3] = {{2, 2, 1}, {2, 1, 2}, {2, 0, 1}, {2, 1, 0},
 				   {0, 2, 1}, {0, 1, 2}, {0, 0, 1}, {0, 1, 0}};
 			
 short int corners[8][3] = {{2, 2, 2}, {2, 0, 2}, {2, 0, 0}, {2, 2, 0},
-	                 {0, 2, 2}, {0, 0, 2}, {0, 0, 0}, {0, 2, 0}};
+					 {0, 2, 2}, {0, 0, 2}, {0, 0, 0}, {0, 2, 0}};
 
 char moves[9][5] = {"U", "D", "R", "L", "F", "B"};
 
@@ -90,45 +91,67 @@ void split(char *to_token)
 	free(com);
 }
 
+char *str_scramble(int *scramble, int len)
+{
+	char moveset_to_char[] = {'U', 'D', 'F', 'B', 'R', 'L'};
+	char suffix_to_char[] = {'\0', '\'', '2'};
+	int to_alloc_size = 0;
+	for(int i=0; i<len; i++)
+	{
+		int suffix = scramble[i] % 3;
+		if(suffix) to_alloc_size += 3;
+		else to_alloc_size += 2;
+	}
+	char *ret = malloc(sizeof(char) * (to_alloc_size + 1));
+	ret[to_alloc_size] = '\0';
+	int str_index = 0;
+	for(int i=0; i<len; i++)
+	{
+		ret[str_index++] = moveset_to_char[scramble[i] / 3];
+		int suffix = scramble[i] % 3;
+		if(suffix)
+			ret[str_index++] = suffix_to_char[suffix];
+		ret[str_index++] = ' ';
+	}
+	ret[str_index] = '\0';
+	return ret;
+}
+
+int *scramble(int lenght)
+{
+	int *ret = malloc(sizeof(int)*lenght);
+	int latest_moveset = -2;
+	int latest_moveaxis = -1;
+	int before_latest_moveaxis = -2;
+	for(int i=0; i<lenght;i++)
+	{
+		bool valid = false;
+		int move;
+		while(!valid)
+		{
+			move = rand() % 18;
+			int new_moveset = move / 3;
+			int new_moveaxis = move / 6;
+			if(new_moveset == latest_moveset) continue;
+			if(new_moveaxis == latest_moveaxis && latest_moveaxis == before_latest_moveaxis) continue;
+			valid = true;
+			before_latest_moveaxis = latest_moveaxis;
+			latest_moveaxis = new_moveaxis;
+			latest_moveset = new_moveset;
+		}
+		ret[i] = move;
+	}
+	return ret;
+}
 void random_moves()
 {
-	int i, mov_rand[20], cur_pos = 0;
-	char random_moves[100];
-	srand(time(NULL));
 	clear();
 	print_cube();
 	mvprintw(26, 1, "Random scramble: ");
-	for (i = 0; i < 20; i++)
-	{
-		while (1)
-		{
-			mov_rand[i] = rand() % 6;
-			if ((i) && (mov_rand[i - 1] == mov_rand[i]))
-				continue;
-			else
-				break;
-		}
-		strcpy(&random_moves[cur_pos], moves[mov_rand[i]]);
-		cur_pos += (int) strlen(moves[mov_rand[i]]) + 2;
-		switch (rand() % 4)
-		{
-			case 0:
-				cur_pos--;
-				break;
-			case 1:
-				strcat(random_moves, "'");
-				break;
-			case 2:
-				strcat(random_moves, "2");
-				break;
-			case 3:
-				cur_pos++;
-				strcat(random_moves, "2'");
-				break;
-		}
-		strcat(random_moves, " ");
-	}
-	split(random_moves);
+	srand(time(NULL));
+	int *scr = scramble(20);
+    char *moves = str_scramble(scr, 20);
+	split(moves);
 }
 
 void solve()

@@ -8,6 +8,8 @@ sudo apt-get install libncurses-dev
 
 # To compile
 
+Just use `make` in this folder or run the following command:
+
 ```bash
-gcc main.c -o main -lncurses
+gcc main.c -o main -lncurses -O2
 ```
