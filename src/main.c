@@ -23,6 +23,7 @@ int main()
 		split(str);
 	}	
 	while (strcmp(str, "end"));
+	free(str);
 	endwin();
 	return 0;
 }

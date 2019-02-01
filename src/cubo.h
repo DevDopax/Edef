@@ -89,6 +89,7 @@ void split(char *to_token)
 		getch();
 	}
 	free(com);
+	free(str);
 }
 
 char *str_scramble(int *scramble, int len)
@@ -151,7 +152,9 @@ void random_moves()
 	srand(time(NULL));
 	int *scr = scramble(20);
     char *moves = str_scramble(scr, 20);
+	free(scr);
 	split(moves);
+	free(moves);
 }
 
 void solve()
