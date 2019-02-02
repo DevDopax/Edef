@@ -88,7 +88,6 @@ void split(char *to_token)
 		mvprintw(32, 1, "Press any character to continue...");
 		getch();
 	}
-	free(com);
 	free(str);
 }
 
