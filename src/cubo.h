@@ -158,7 +158,7 @@ void set_cube()
 				for (l = 1; l < 7; l++)
 					*((short int*) &cube[i][j][k] + l) = -1;
 					
-	// strato superiore
+	// upper layer
 	cube[0][0][0].type = 3;
 	cube[0][0][0].top = 0;
 	cube[0][0][0].back = 3;
@@ -198,7 +198,7 @@ void set_cube()
 	cube[0][2][2].front = 1;
 	cube[0][2][2].right = 2;
 	
-	// strato intermedio
+	// intermediate layer
 	cube[1][0][0].type = 2;
 	cube[1][0][0].back = 3;
 	cube[1][0][0].left = 4;
@@ -229,7 +229,7 @@ void set_cube()
 	cube[1][2][2].front = 1;
 	cube[1][2][2].right = 2;
 	
-	// strato inferiore
+	// lower layer
 	cube[2][0][0].type = 3;
 	cube[2][0][0].back = 3;
 	cube[2][0][0].left = 4;
