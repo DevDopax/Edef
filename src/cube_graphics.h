@@ -143,7 +143,7 @@ void print_info()
 	attron(A_REVERSE);
 	mvprintw(8, 2, "Program's info:");
 	attroff(A_REVERSE);
-	mvprintw(10, 4, "Edef 0.2 is a rubik's cube simulator and solver.");
+	mvprintw(10, 4, "Edef 0.3 is a rubik's cube simulator and solver.");
 	mvprintw(11, 4, "The method used for solving cube is:");
 	mvprintw(12, 4, "- First Layer Cross");
 	mvprintw(13, 4, "- First Layer Corners");
